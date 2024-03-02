@@ -19,6 +19,12 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array<int, string>
      */
+
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
     protected $fillable = [
         'name',
         'email',

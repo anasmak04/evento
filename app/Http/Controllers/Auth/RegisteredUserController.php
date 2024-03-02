@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -31,16 +32,30 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+//            'image' => ['required'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
+//            "image" => $request->image,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+
         ]);
+
+        $role = Role::where("name", "Utilisateur")->first();
+
+        if($role){
+            $user->roles()->attach($role);
+        }
+
+
+        if($request->hasFile("profile_image")){
+            $user->addMediaFromRequest("profile_image")->toMediaCollection('images');
+        }
 
         event(new Registered($user));
 
