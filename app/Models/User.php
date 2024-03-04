@@ -25,6 +25,17 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function organizer()
+    {
+        return $this->hasOne(Organizer::class);
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->roles()->where('name', $roleName)->exists();
+    }
+
     protected $fillable = [
         'name',
         'email',
@@ -50,4 +61,7 @@ class User extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+
 }

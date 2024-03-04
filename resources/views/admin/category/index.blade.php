@@ -179,17 +179,12 @@
                     <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            Avatar
+                            Id
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-                        <th scope="col" class="px-6 py-3">
-                            Email
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Role
-                        </th>
+
                         <th scope="col" class="px-6 py-3">
                             Action
                         </th>
@@ -199,47 +194,38 @@
 
                     <tbody>
 
-                    @foreach($users as $user)
+                    @foreach($categories as $category)
 
 
-                    <tr class="">
+                        <tr class="">
 
-                        <th scope="row" class="">
-                            <img src="{{$user->getFirstMediaUrl('images')}}" style="width: 90px; height: 80px ; border-radius: 50%; margin: 0 auto ; display: block" alt="avatar">
-                        </th>
 
-                        <td class="px-6 py-4">
-                            {{$user->name}}
-                        </td>
-
-                        <td class="px-6 py-4">
-                            {{$user->email}}
-                        </td>
-
-                        @foreach($user->roles as $role)
                             <td class="px-6 py-4">
-                             <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                     {{ $role->name }}
-    </span>
+                                {{$category->id}}
                             </td>
-                        @endforeach
-
-                        <td class="px-6 py-4 flex gap-2">
-                            <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" type="button">
-                                Edit
-                            </button>
-
-                            <form action="{{ route('dashboard.destroy', ["dashboard" => $user]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" type="submit">delete</button>
-                            </form>
 
 
-                        </td>
-                    </tr>
+                            <td class="px-6 py-4">
+                                {{$category->name}}
+                            </td>
+
+
+
+
+
+                            <td class="px-6 py-4 flex gap-2">
+                                <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" type="button">
+                                    Edit
+                                </button>
+
+                                <form action="" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" type="submit">delete</button>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
-
                     <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-2xl max-h-full">
                             <!-- Modal content -->
@@ -260,24 +246,19 @@
 
 
                                 <div class="p-4 md:p-5 space-y-4">
-                                    <form action="{{ route('user.update.role') }}" method="POST">
+                                    <form action="{{ route('category.update', ["category => $category->id"]) }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="user_id" id="user_id_input" value="{{$user->id}}">
+                                        @method("put")
 
-                                        <label for="role_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-                                        <select name="role_id"  required id="role_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option selected>Choose a role for user</option>
-                                            <option value="1">Utilisateur</option>
-                                            <option value="2">Organisateur</option>
-                                            <option value="3">Admin</option>
-                                        </select>
-
-
-                                <!-- Modal footer -->
-                                <div class="flex items-center gap-4 p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                    <button data-modal-hide="default-modal" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                                    <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
-                                </div>
+                                        <div>
+                                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name : </label>
+                                            <input type="text" value="{{$category->name}}" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
+                                        </div>
+                                        <!-- Modal footer -->
+                                        <div class="flex items-center gap-4 p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                                            <button data-modal-hide="default-modal" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                                            <button data-modal-hide="default-modal" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                        </div>
 
                                     </form>
 
@@ -285,6 +266,7 @@
                             </div>
                         </div>
                     </div>
+
 
 
                     @endforeach

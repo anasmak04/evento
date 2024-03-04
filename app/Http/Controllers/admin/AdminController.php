@@ -24,9 +24,17 @@ class AdminController extends Controller
 
         $user = User::find($request->user_id);
 
-        $user->roles()->sync([$request->role_id]);
+        $user->roles()->attach([$request->role_id]);
         return redirect()->back();
     }
+
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
 
 
 

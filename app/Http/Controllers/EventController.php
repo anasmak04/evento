@@ -13,13 +13,15 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view("", compact("events"));
+        return view("user.index", compact("events"));
     }
+
+
 
     public function show($id)
     {
         $event = Event::findOrFail($id);
-        return view("", compact("event"));
+        return view("user.details", compact("event"));
     }
 
 

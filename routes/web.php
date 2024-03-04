@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +26,13 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::resource("/event", EventController::class);
-Route::resource("/dashboard", \App\Http\Controllers\admin\AdminController::class);
-Route::post('/user/update-role', [\App\Http\Controllers\admin\AdminController::class, 'updateRole'])->name('user.update.role');
-
+Route::resource("/events", EventController::class);
+Route::resource("/category", CategoryController::class);
+Route::resource("/dashboard", AdminController::class);
+Route::resource("/home", \App\Http\Controllers\user\HomeController::class);
+Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
+Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class)->middleware("auth");
+Route::post('/become-organizer', [\App\Http\Controllers\Organizer\OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
 
 
 Route::middleware('auth')->group(function () {

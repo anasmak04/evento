@@ -53,9 +53,10 @@ class RegisteredUserController extends Controller
         }
 
 
-        if($request->hasFile("profile_image")){
-            $user->addMediaFromRequest("profile_image")->toMediaCollection('images');
+        if ($request->hasFile("profile_image")) {
+            $user->addMediaFromRequest("profile_image")->toMediaCollection('images', 'media');
         }
+
 
         event(new Registered($user));
 
