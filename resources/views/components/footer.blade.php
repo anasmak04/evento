@@ -7,6 +7,7 @@
                 <a href="https://flowbite.com/" class="flex items-center">
                     <span class="self-center text-2xl font-semibold whitespace-nowrap ">Evento</span>
                 </a>
+
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>

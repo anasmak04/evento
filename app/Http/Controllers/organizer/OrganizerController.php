@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Organizer;
+namespace App\Http\Controllers\organizer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Organisation;
@@ -15,6 +15,12 @@ class OrganizerController extends Controller
     public function index()
     {
         return view("organizer.organizer-fill-infos");
+    }
+
+
+    public function show()
+    {
+
     }
 
     public function becomeOrganizer(Request $request) {
@@ -45,6 +51,10 @@ class OrganizerController extends Controller
             return back()->with('error', 'Something went wrong.');
         }
     }
+
+
+
+
 
 
 

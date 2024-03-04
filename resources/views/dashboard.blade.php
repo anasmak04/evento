@@ -216,13 +216,14 @@
                             {{$user->email}}
                         </td>
 
-                        @foreach($user->roles as $role)
-                            <td class="px-6 py-4">
-                             <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
-                     {{ $role->name }}
-    </span>
-                            </td>
-                        @endforeach
+                        <td class="px-6 py-4">
+                            @foreach($user->roles as $role)
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 m-2 rounded dark:bg-blue-900 dark:text-blue-300">
+            {{ $role->name }}
+        </span>
+                            @endforeach
+                        </td>
+
 
                         <td class="px-6 py-4 flex gap-2">
                             <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" type="button">

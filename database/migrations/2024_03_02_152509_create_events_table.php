@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("lieu");
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
             $table->integer("places_Disponible");
+            $table->foreignId("organizer_id")->constrained()->onDelete("cascade");
             $table->timestamps();
         });
     }

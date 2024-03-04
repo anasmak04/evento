@@ -210,10 +210,8 @@
                             </td>
 
 
-
-
-
                             <td class="px-6 py-4 flex gap-2">
+
                                 <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" type="button">
                                     Edit
                                 </button>
@@ -223,9 +221,13 @@
                                     @method('DELETE')
                                     <button class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" type="submit">delete</button>
                                 </form>
+
                             </td>
+
                         </tr>
                     </tbody>
+
+
                     <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-2xl max-h-full">
                             <!-- Modal content -->
@@ -251,7 +253,6 @@
                                         @method("put")
 
                                         <div>
-                                            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name : </label>
                                             <input type="text" value="{{$category->name}}" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required />
                                         </div>
                                         <!-- Modal footer -->

@@ -3,6 +3,8 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\organizer\OrganizerDashboardController;
+use App\Http\Controllers\organizer\OrganizerEventController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,9 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,8 +30,12 @@ Route::resource("/category", CategoryController::class);
 Route::resource("/dashboard", AdminController::class);
 Route::resource("/home", \App\Http\Controllers\user\HomeController::class);
 Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
-Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class)->middleware("auth");
+Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class);
 Route::post('/become-organizer', [\App\Http\Controllers\Organizer\OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
+
+Route::get("event/add", [OrganizerEventController::class , "index"]);
+
+Route::get("organizer/dashboard", [OrganizerDashboardController::class, 'index']);
 
 
 Route::middleware('auth')->group(function () {
