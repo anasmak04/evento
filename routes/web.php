@@ -30,13 +30,16 @@ Route::resource("/category", CategoryController::class);
 Route::resource("/dashboard", AdminController::class);
 Route::resource("/home", \App\Http\Controllers\user\HomeController::class);
 Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
-Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class);
 Route::post('/become-organizer', [\App\Http\Controllers\Organizer\OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
 
 Route::get("event/add", [OrganizerEventController::class , "index"]);
 
-Route::get("organizer/dashboard", [OrganizerDashboardController::class, 'index']);
 
+Route::prefix("organizer")->group(function () {
+    Route::get("dashboard", [OrganizerDashboardController::class, 'index']);
+});
+
+Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
