@@ -11,14 +11,21 @@ class OrganizerEventController extends Controller
 
     public function index()
     {
+
         return view("organizer.event.create");
     }
 
 
     public function create()
     {
-        return view("organizer.event.create");
+
+        $organizerId = auth()->id();
+        $events = Event::where("is_approved", false)
+            ->where("organizer_id", $organizerId)
+            ->get();
+        return view("organizer.event.create", compact("events"));
     }
+
 
 
     public function store(Request $request)

@@ -5,6 +5,9 @@
     <title>Tailwind CSS Dashboard UI - Bytewebster</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.12/tailwind-experimental.min.css'>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </head>
 
 
@@ -208,6 +211,8 @@
                             @endif
                         </td>
                     </tr>
+
+
                 @endforeach
                 </tbody>
             </table>
@@ -219,7 +224,6 @@
 
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
 </body>
 </html>

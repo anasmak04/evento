@@ -24,7 +24,7 @@
     <section class="mt-4 mb-8">
         <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-3 gap-4">
             @foreach($events as $event)
-                <div class="card border border-gray-200 w-[300px] shadow-lg rounded-lg overflow-hidden">
+                <div class="card border border-gray-200 w-full md:w-[300px] shadow-lg rounded-lg overflow-hidden">
                     <img src="{{$event->getFirstMediaUrl('eventImage')}}" alt="image" class="w-full object-cover">
                     <div class="p-4">
                         <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$event->category->name}}</span>
@@ -36,15 +36,22 @@
                         <div class="flex items-center gap-2">
                             <button class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
                             <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">
-                                {{-- <input type="hidden" name="id" value="{{$event->id}}"> --}}
                                 <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
                             </form>
+
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
+
+        <div class="mt-8 flex justify-center">
+            {{ $events->links() }}
+        </div>
+
     </section>
+
+
 
 
 
