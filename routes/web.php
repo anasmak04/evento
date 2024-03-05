@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\category\CategoryController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\organizer\OrganizerDashboardController;
 use App\Http\Controllers\organizer\OrganizerEventController;
+use App\Http\Controllers\organizer\reservation\ReservationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +48,8 @@ Route::prefix("admin/dashboard")->group(function (){
 });
 
 Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class);
+Route::post('/reserve-event', [ReservationController::class, 'reserveEvent'])->name('reserve.event')->middleware('auth');
+Route::get('/mes-reservations', [ReservationController::class, 'index'])->name('reservations.index')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

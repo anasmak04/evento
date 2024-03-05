@@ -36,8 +36,6 @@ class OrganizerEventController extends Controller
             $event->addMediaFromRequest("event_image")->toMediaCollection('eventImage', 'media');
         }
 
-        $userid = $request->input("organizer_id");
-        $event->users()->attach($userid);
         return redirect()->back();
     }
 

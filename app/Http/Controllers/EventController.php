@@ -5,14 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Models\Category;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+
+
+
+
+    public function index(Request $request)
     {
-        $events = Event::where("is_approved", true)->paginate(8);
+        $searchKey = $request->input("searchKey");
+        if ($searchKey) {
+            $events = Event::where("titre", 'LIKE', "%{$searchKey}%")->get();
+        } else {
+            $events = Event::where("is_approved", true)->paginate(8);
+        }
+
+        $categories = Category::all();
         return view("user.index", compact("events"));
     }
 

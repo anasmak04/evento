@@ -23,6 +23,7 @@
             </tr>
             </thead>
             <tbody>
+
             @foreach($events as $event)
                 <tr class="bg-white border-b">
                     <td class="py-4 px-6">{{ $event->id }}</td>
@@ -33,6 +34,8 @@
             @endforeach
             </tbody>
         </table>
+
+
     </div>
 
     <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
@@ -75,8 +78,17 @@
             </div>
 
             <div>
+                <input type="hidden" value="{{auth()->id()}}" name="organizer_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2.5">
+            </div>
+
+            <div>
+                <input type="hidden" name="is_approved" value="0"  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2.5">
+            </div>
+
+            <div>
                 <button type="submit" class="w-full py-3 px-6 bg-blue-500 hover:bg-blue-700 rounded-md text-white text-sm font-medium">Submit</button>
             </div>
+
         </form>
     </div>
 </div>

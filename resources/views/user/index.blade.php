@@ -21,7 +21,35 @@
 <body class="bg-[#f7f8fc] font">
     @include("components.navbar")
 
+    <div class="flex justify-center items-center p-4 ">
+        <form action="{{route('home.index')}}" method="get" class="flex gap-2">
+            @csrf
+            <input name="searchKey" type="text" placeholder="Search..." class="w-80 border border-gray-300 p-2 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out" />
+            <button type="submit" class="bg-blue-700 text-white p-2 rounded-lg hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-opacity-50 transition duration-150 ease-in-out">
+                Search
+            </button>
+        </form>
+    </div>
+
+
+        <form class="max-w-sm mx-auto">
+            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Select an option</label>
+            <select id="countries" class="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                <option selected>Choose a country</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="FR">France</option>
+                <option value="DE">Germany</option>
+            </select>
+        </form>
+
+
+
+
+
+
     <section class="mt-4 mb-8">
+
         <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-3 gap-4">
             @foreach($events as $event)
                 <div class="card border border-gray-200 w-full md:w-[300px] shadow-lg rounded-lg overflow-hidden">
@@ -34,7 +62,13 @@
                         <p class="mt-2 text-gray-800 font-semibold">Les places Disponible : {{$event->places_Disponible}}</p>
 
                         <div class="flex items-center gap-2">
-                            <button class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
+
+                            <form action="{{route("reserve.event")}}" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$event->id}}" name="event_id">
+                                <button type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
+                            </form>
+
                             <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">
                                 <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
                             </form>
@@ -45,15 +79,11 @@
             @endforeach
         </div>
 
-        <div class="mt-8 flex justify-center">
-            {{ $events->links() }}
-        </div>
+{{--        <div class="mt-8 flex justify-center">--}}
+{{--            {{ $events->links() }}--}}
+{{--        </div>--}}
 
     </section>
-
-
-
-
 
     <section  class="pb-20 md:pb-20 w-full bg text-white space-y-8">
             <div class="space-y-6 pt-8">

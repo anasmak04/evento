@@ -28,8 +28,9 @@ class User extends Authenticatable implements HasMedia
 
     public function events()
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class)->withPivot('is_approved');
     }
+
 
     public function organizer()
     {
