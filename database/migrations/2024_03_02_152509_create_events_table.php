@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId("category_id")->constrained()->onDelete("cascade");
             $table->integer("places_Disponible");
             $table->foreignId("organizer_id")->constrained()->onDelete("cascade");
+            $table->boolean('is_approved')->default(false);
             $table->timestamps();
         });
     }

@@ -26,6 +26,11 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(Role::class);
     }
 
+    public function events()
+    {
+        return $this->belongsToMany(Event::class);
+    }
+
     public function organizer()
     {
         return $this->hasOne(Organizer::class);

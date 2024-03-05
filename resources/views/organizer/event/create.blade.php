@@ -12,7 +12,14 @@
 <div class="min-h-screen bg-gray-100 flex flex-col justify-center">
     <div class="container mx-auto">
         <div class="bg-white p-8 border border-gray-300">
-            <form class="space-y-6" action="#" method="POST">
+            <form class="space-y-6" action="{{route("event.store")}}" method="POST"  enctype="multipart/form-data">
+                @csrf
+
+                <div>
+                    <label class="text-sm font-bold text-gray-600 block">Image</label>
+                    <input type="file" name="event_image" class="w-full p-2 border border-gray-300 rounded mt-1">
+                </div>
+
                 <div>
                     <label class="text-sm font-bold text-gray-600 block">Titre</label>
                     <input type="text" name="titre" class="w-full p-2 border border-gray-300 rounded mt-1">
@@ -38,8 +45,7 @@
                     <input type="number" name="places_Disponible" class="w-full p-2 border border-gray-300 rounded mt-1">
                 </div>
                 <div>
-                    <label class="text-sm font-bold text-gray-600 block">Organizer ID</label>
-                    <input type="number" name="organizer_id" class="w-full p-2 border border-gray-300 rounded mt-1">
+                    <input type="hidden" value="{{auth()->id()}}" name="organizer_id" class="w-full p-2 border border-gray-300 rounded mt-1">
                 </div>
                 <div>
                     <button type="submit" class="w-full py-2 px-4 bg-blue-500 hover:bg-blue-700 rounded-md text-white text-sm">Submit</button>

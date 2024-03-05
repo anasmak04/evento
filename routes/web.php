@@ -25,18 +25,25 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::resource("/events", EventController::class);
 Route::resource("/category", CategoryController::class);
 Route::resource("/dashboard", AdminController::class);
-Route::resource("/home", \App\Http\Controllers\user\HomeController::class);
 Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
 Route::post('/become-organizer', [\App\Http\Controllers\Organizer\OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
 
-Route::get("event/add", [OrganizerEventController::class , "index"]);
 
+
+Route::resource("/home", EventController::class)->middleware("auth");
 
 Route::prefix("organizer")->group(function () {
     Route::get("dashboard", [OrganizerDashboardController::class, 'index']);
+    Route::resource("event", OrganizerEventController::class);
+});
+
+
+Route::prefix("admin/dashboard")->group(function (){
+   Route::resource("category", CategoryController::class);
+   Route::resource("events", \App\Http\Controllers\admin\EventController::class);
+   Route::patch('/admin/events/{event}/approve', [\App\Http\Controllers\admin\EventController::class, 'update'])->name('events.approve');
 });
 
 Route::resource("organizer", \App\Http\Controllers\organizer\OrganizerController::class);

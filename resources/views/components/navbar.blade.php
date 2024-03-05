@@ -32,21 +32,31 @@
                     <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 " aria-current="page">Home</a>
 
                 <li>
-                    <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Profile</a>
+                    <a href="{{route("profile.edit")}}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Profile</a>
                 </li>
 
                 <li>
                     @if(auth()->user() && auth()->user()->hasRole("Organisateur"))
-                        <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Create Event</a>
+                        <a target="_blank" href="{{route("event.create")}}"  class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create Event</a>
+                    @endif
+
+                </li>
+
+
+                <li>
+                    @if(auth()->user() && auth()->user()->hasRole("Organisateur"))
+                        <a target="_blank" href="{{route("dashboard.index")}}"  class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Dashboard</a>
+                    @endif
+
+                </li>
+
+                <li>
+                    @if(auth()->user() && !auth()->user()->hasRole("Organisateur"))
+                    <a href="{{route("organizer.index")}}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Become an organizer</a>
                     @endif
                 </li>
 
-                <li>
-                    <a href="{{route("organizer.index")}}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Become an organizer</a>
-
-                </li>
-
-                <li>
+                <li class="relative top-[1px]">
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
