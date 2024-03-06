@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li class="rounded-lg">
-                <a target="_blank" href="" class="{{Route::is('rep.dash.company.index') ? 'bg-gray-700' : ''}} bg-gray-100 hover:bg-gray-300 hover:shadow flex items-center p-2 text-gray-900 rounded-lg group">
+                <a target="_blank" href="{{route("reservation.index")}}" class="{{Route::is('rep.dash.company.index') ? 'bg-gray-700' : ''}} bg-gray-100 hover:bg-gray-300 hover:shadow flex items-center p-2 text-gray-900 rounded-lg group">
                     <span class="material-symbols-outlined">
                         scatter_plot
                     </span>

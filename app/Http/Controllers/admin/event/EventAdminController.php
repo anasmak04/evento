@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\admin\event;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
-class EventController extends Controller
+class EventAdminController extends Controller
 {
 
         public function index()

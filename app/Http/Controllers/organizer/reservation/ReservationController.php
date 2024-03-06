@@ -8,12 +8,27 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
+
+
+//    public function index()
+//    {
+//        $user = auth()->user();
+//        $reservations = $user->events()->wherePivot('is_approved', true)->get();
+//        return view('user.reservation.index', compact('reservations'));
+//    }
+
+
     public function index()
     {
-        $user = auth()->user();
-        $reservations = $user->events()->wherePivot('is_approved', true)->get();
-        return view('user.reservation.index', compact('reservations'));
+        $organizerId= auth()->id();
+
+        $events = Event::where("auto_accept", false)
+            ->where("organizer_id", $organizerId)->get();
+        return view("organizer.dashboard.reservation.index", compact("events"));
     }
+
+
+
 
     public function reserveEvent(Request $request)
     {
@@ -30,5 +45,17 @@ class ReservationController extends Controller
         return redirect()->route("home.index");
     }
 
+
+    public function updateAutoAccept(Event $event, Request $request)
+    {
+
+        $autoAcceptStatus = $request->input('auto_accept', false);
+
+        $event->update([
+            'auto_accept' => $autoAcceptStatus,
+        ]);
+
+        return redirect()->back()->with('success', 'Event auto-accept status updated successfully.');
+    }
 
 }

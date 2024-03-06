@@ -6,7 +6,6 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\organizer\category\OrganizerCategoryController;
 use App\Http\Controllers\organizer\event\OrganizerEventController;
 use App\Http\Controllers\organizer\OrganizerController;
-use App\Http\Controllers\organizer\OrganizerDashboardController;
 use App\Http\Controllers\organizer\reservation\ReservationController;
 use App\Http\Controllers\organizer\statistique\OrganizerStatistiqueController;
 use App\Http\Controllers\ProfileController;
@@ -36,23 +35,26 @@ Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('
 Route::resource("/home", EventController::class)->middleware("auth");
 
 
+Route::prefix("admin/dashboard")->group(function (){
+    Route::resource("category", CategoryController::class);
+    Route::resource("events", \App\Http\Controllers\admin\event\EventAdminController::class);
+    Route::patch('/admin/events/{event}/approve', [\App\Http\Controllers\admin\event\EventAdminController::class, 'update'])->name('events.approve');
+});
+
 
 
 Route::prefix("organizer")->group(function () {
+    Route::resource("/reservation", ReservationController::class);
     Route::get("dashboard", [OrganizerStatistiqueController::class, 'index'])->name("organizer.statistique");
     Route::get("dashboard/events", [OrganizerEventController::class, 'index'])->name("organizer.events");
     Route::get("dashboard/categories", [OrganizerCategoryController::class, 'index'])->name("organizer.categories");
     Route::resource("event", OrganizerEventController::class);
     Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
+    Route::patch('/events/{event}/auto-accept', [ReservationController::class, 'updateAutoAccept'])->name('events.updateAutoAccept');
+
 });
 
 
-
-Route::prefix("admin/dashboard")->group(function (){
-   Route::resource("category", CategoryController::class);
-   Route::resource("events", EventController::class);
-   Route::patch('/admin/events/{event}/approve', [\App\Http\Controllers\admin\EventController::class, 'update'])->name('events.approve');
-});
 
 
 
