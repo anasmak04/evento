@@ -43,7 +43,7 @@
 
                 <li>
                     @if(auth()->user() && auth()->user()->hasRole("Organisateur"))
-                        <a target="_blank" href="{{route("dashboard.index")}}" >Dashboard</a>
+                        <a target="_blank" href="{{route("organizer.statistique")}}" >Dashboard</a>
                     @endif
 
                 </li>

@@ -37,7 +37,7 @@ Route::resource("/home", EventController::class)->middleware("auth");
 
 
 Route::prefix("admin/dashboard")->group(function (){
-    Route::resource("/", AdminController::class);
+    Route::get("/", [AdminController::class, "index"])->name("statistique");
     Route::resource("category", CategoryController::class);
     Route::resource("user", AdminUserController::class);
     Route::resource("events", EventAdminController::class);

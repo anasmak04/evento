@@ -25,7 +25,7 @@ class EventController extends Controller
         }
 
         $categories = Category::all();
-        return view("user.index", compact("events"));
+        return view("user.index", compact("events", "categories"));
     }
 
 

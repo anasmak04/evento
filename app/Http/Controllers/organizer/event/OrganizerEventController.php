@@ -36,6 +36,7 @@ class OrganizerEventController extends Controller
     {
 
         $eventData = $request->all();
+
         $eventData['organizer_id'] = $request->input('organizer_id');
 
         $event = Event::create($eventData);

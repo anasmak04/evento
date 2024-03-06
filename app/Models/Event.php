@@ -30,6 +30,9 @@ class Event extends Model implements HasMedia
         return $this->belongsToMany(User::class)->withPivot('is_approved');
     }
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
 
 
 

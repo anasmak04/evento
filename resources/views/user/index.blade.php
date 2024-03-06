@@ -21,7 +21,9 @@
 <body class="bg-[#f7f8fc] font">
     @include("components.navbar")
 
-    <div class="flex justify-center items-center p-4 ">
+
+    <div class="p-4 flex justify-center gap-4 items-center">
+
         <form action="{{route('home.index')}}" method="get" class="flex gap-2">
             @csrf
             <input name="searchKey" type="text" placeholder="Search..." class="w-80 border border-gray-300 p-2 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out" />
@@ -29,19 +31,21 @@
                 Search
             </button>
         </form>
+
+        <form action="" method="">
+            <select id="categories" class="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                @foreach($categories as $category)
+                <option selected>Choose a category</option>
+                <option>{{$category->name}}</option>
+                @endforeach
+            </select>
+
+        </form>
+
+
     </div>
 
 
-        <form class="max-w-sm mx-auto">
-            <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Select an option</label>
-            <select id="countries" class="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
-                <option selected>Choose a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
-            </select>
-        </form>
 
 
 
@@ -62,12 +66,15 @@
                         <p class="mt-2 text-gray-800 font-semibold">Les places Disponible : {{$event->places_Disponible}}</p>
 
                         <div class="flex items-center gap-2">
+                            @if($event->date->isPast())
+                                <button  type="button" class="mt-4  focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600" disabled>Guichet Fermé</button>
+                            @else
+                                <form action="{{route("reserve.event")}}" method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{ $event->id }}" name="event_id">
+                                    <button type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
+                                </form>                            @endif
 
-                            <form action="{{route("reserve.event")}}" method="post">
-                                @csrf
-                                <input type="hidden" value="{{ $event->id }}" name="event_id">
-                                <button type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
-                            </form>
 
                             <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">
                                 <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>

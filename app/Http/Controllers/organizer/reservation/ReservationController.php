@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -40,6 +41,10 @@ class ReservationController extends Controller
 
         if (!$event) {
             return redirect()->back()->with('error', 'Event not found.');
+        }
+
+        if ($event->date->isPast()) {
+            return redirect()->back()->with('error', 'This event has already occurred and cannot be reserved.');
         }
 
         if ($event->auto_accept) {
