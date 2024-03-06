@@ -12,7 +12,7 @@ class EventAdminController extends Controller
         public function index()
         {
             $events = Event::with("users")->get();
-            return view("admin.events.index" , compact("events"));
+            return view("admin.dashboard.events.index" , compact("events"));
         }
 
 

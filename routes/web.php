@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\category\CategoryController;
+use App\Http\Controllers\admin\event\EventAdminController;
+use App\Http\Controllers\admin\user\AdminUserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\organizer\category\OrganizerCategoryController;
 use App\Http\Controllers\organizer\event\OrganizerEventController;
@@ -29,15 +31,16 @@ Route::get('/dashboard', function () {
 
 
 Route::resource("/category", CategoryController::class);
-Route::resource("/dashboard", AdminController::class);
 Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
 
 Route::resource("/home", EventController::class)->middleware("auth");
 
 
 Route::prefix("admin/dashboard")->group(function (){
+    Route::resource("/", AdminController::class);
     Route::resource("category", CategoryController::class);
-    Route::resource("events", \App\Http\Controllers\admin\event\EventAdminController::class);
+    Route::resource("user", AdminUserController::class);
+    Route::resource("events", EventAdminController::class);
     Route::patch('/admin/events/{event}/approve', [\App\Http\Controllers\admin\event\EventAdminController::class, 'update'])->name('events.approve');
 });
 

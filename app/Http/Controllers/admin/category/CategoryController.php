@@ -13,7 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view("admin.category.index", compact("categories"));
+        return view("admin.dashboard.category.index", compact("categories"));
     }
 
     public function store(Request $request)
