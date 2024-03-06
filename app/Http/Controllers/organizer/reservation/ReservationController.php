@@ -4,6 +4,8 @@ namespace App\Http\Controllers\organizer\reservation;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\User;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
@@ -36,14 +38,31 @@ class ReservationController extends Controller
         $eventId = $request->event_id;
         $event = Event::find($eventId);
 
+        if (!$event) {
+            return redirect()->back()->with('error', 'Event not found.');
+        }
+
         if ($event->auto_accept) {
             $event->users()->attach($userId, ['is_approved' => true]);
         } else {
             $event->users()->attach($userId, ['is_approved' => false]);
         }
 
-        return redirect()->route("home.index");
-    }
+        $user = auth()->user();
+        $eventName = $event->name;
+
+        $data = [
+            'userName' => $user->name,
+            'eventName' => $eventName,
+        ];
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.event_reservation', $data);
+
+    return $pdf->download('event-reservation-' . $userId . '-' . $eventId . '.pdf');
+
+
+}
+
 
 
     public function updateAutoAccept(Event $event, Request $request)
@@ -57,5 +76,6 @@ class ReservationController extends Controller
 
         return redirect()->back()->with('success', 'Event auto-accept status updated successfully.');
     }
+
 
 }

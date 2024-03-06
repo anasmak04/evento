@@ -51,6 +51,7 @@ Route::prefix("organizer")->group(function () {
     Route::resource("event", OrganizerEventController::class);
     Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
     Route::patch('/events/{event}/auto-accept', [ReservationController::class, 'updateAutoAccept'])->name('events.updateAutoAccept');
+//    Route::get('/home/{userId}/{eventId}', [ReservationController::class, 'generatePDF']);
 
 });
 
