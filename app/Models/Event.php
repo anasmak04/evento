@@ -13,7 +13,7 @@ class Event extends Model implements HasMedia
 
 
 
-    protected $fillable = ["titre", "description", "date", "lieu" , "category_id", "places_Disponible", "organizer_id", "is_approved"];
+    protected $fillable = ['titre', 'description', 'date', 'lieu', 'category_id', 'places_Disponible', 'organizer_id', 'is_approved', 'auto_accept'];
 
     public function category()
     {

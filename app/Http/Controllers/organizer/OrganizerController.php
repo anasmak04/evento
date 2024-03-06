@@ -44,12 +44,14 @@ class OrganizerController extends Controller
 
             DB::commit();
 
-            return back()->route('events.index');
+            return redirect()->route("home.index");
 
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Something went wrong.');
         }
+
+
     }
 
 

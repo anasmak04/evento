@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,8 +30,28 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth::user();
+
+
+        return $this->redirection($user);
     }
+
+
+    public function redirection(User $user)
+    {
+        if ($user->hasRole("Utilisateur")){
+            return redirect("home");
+        }
+
+        else if($user->hasRole("Admin")){
+            return redirect("dashboard");
+        }
+
+        else{
+            return redirect("login");
+        }
+    }
+
 
     /**
      * Destroy an authenticated session.

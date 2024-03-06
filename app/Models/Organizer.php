@@ -30,5 +30,4 @@ class Organizer extends Model
 
 
 
-
 }

@@ -48,11 +48,7 @@
 
                 </li>
 
-                <li>
-                    @if(auth()->user() && auth()->user()->hasRole("Utilisateur"))
-                        <a href="{{route("reservations.index")}}" >mes reservations</a>
-                    @endif
-                </li>
+
 
                 <li>
                     @if(auth()->user() && !auth()->user()->hasRole("Organisateur"))

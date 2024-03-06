@@ -43,7 +43,6 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-
         ]);
 
         $role = Role::where("name", "Utilisateur")->first();
@@ -58,10 +57,30 @@ class RegisteredUserController extends Controller
         }
 
 
+
+
         event(new Registered($user));
 
         Auth::login($user);
+        $user = Auth::user();
 
-        return redirect(RouteServiceProvider::HOME);
+        return $this->redirection($user);
     }
+
+
+    public function redirection(User $user)
+    {
+        if ($user->hasRole("Utilisateur")){
+            return redirect("home");
+        }
+
+        else if($user->hasRole("Admin")){
+            return redirect("dashboard");
+        }
+
+        else{
+            return redirect("login");
+        }
+    }
+
 }

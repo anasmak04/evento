@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
-    //
     public function index()
     {
         $user = auth()->user();
@@ -16,14 +15,20 @@ class ReservationController extends Controller
         return view('user.reservation.index', compact('reservations'));
     }
 
-
-
     public function reserveEvent(Request $request)
     {
         $userId = auth()->id();
         $eventId = $request->event_id;
         $event = Event::find($eventId);
-        $event->users()->attach($userId, ['is_approved' => false]);
+
+        if ($event->auto_accept) {
+            $event->users()->attach($userId, ['is_approved' => true]);
+        } else {
+            $event->users()->attach($userId, ['is_approved' => false]);
+        }
+
         return redirect()->route("home.index");
     }
+
+
 }
