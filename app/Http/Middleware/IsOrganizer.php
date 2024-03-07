@@ -15,7 +15,7 @@ class IsOrganizer
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request,User $user , Closure $next): Response
+    public function handle(Request $request, User $user , Closure $next): Response
     {
 
         if(Auth::check() && $user->hasRole("Organizer")){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\organizer\event;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,18 +14,19 @@ class OrganizerEventController extends Controller
 
     public function index()
     {
+        $categories = Category::all();
         $organizerId = auth()->id();
         $events = Event::where("is_approved", false)
             ->where("organizer_id", $organizerId)
             ->get();
-        return view("organizer.dashboard.events.index", compact("events"));
+        return view("organizer.dashboard.events.index", compact("events", "categories"));
+
     }
 
 
 
     public function create()
     {
-
         $organizerId = auth()->id();
         $events = Event::where("is_approved", false)
             ->where("organizer_id", $organizerId)

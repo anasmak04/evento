@@ -45,7 +45,7 @@ Route::prefix("admin/dashboard")->middleware(["auth", "admin"])->group(function 
 
 
 
-Route::prefix("organizer")->middleware(["auth", "organizer"])->group(function () {
+Route::prefix("organizer")->middleware(["auth"])->group(function () {
     Route::resource("organizer", OrganizerController::class);
     Route::resource("/reservation", ReservationController::class);
     Route::get("dashboard", [OrganizerStatistiqueController::class, 'index'])->name("organizer.statistique");
@@ -55,6 +55,8 @@ Route::prefix("organizer")->middleware(["auth", "organizer"])->group(function ()
     Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
     Route::patch('/events/{event}/auto-accept', [ReservationController::class, 'updateAutoAccept'])->name('events.updateAutoAccept');
 //    Route::get('/home/{userId}/{eventId}', [ReservationController::class, 'generatePDF']);
+     Route::post('/reserve-event', [ReservationController::class, 'reserveEvent'])->name('reserve.event');
+
 });
 
 
@@ -62,7 +64,6 @@ Route::prefix("organizer")->middleware(["auth", "organizer"])->group(function ()
 
 
 //Route::prefix("organizer")->group( function (){
-//    Route::post('/reserve-event', [ReservationController::class, 'reserveEvent'])->name('reserve.event');
 //    Route::get('/mes-reservations', [ReservationController::class, 'index'])->name('reservations.index');
 //})->middleware("auth");
 
