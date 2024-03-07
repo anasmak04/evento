@@ -57,7 +57,6 @@ class OrganizerEventController extends Controller
             $event->addMediaFromRequest("event_image")->toMediaCollection('eventImage', 'media');
         }
 
-        // Assuming the event creation process is successful
         return redirect()->back()->with('status', 'Your event has been created successfully and is pending approval.');
     }
 

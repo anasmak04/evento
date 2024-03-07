@@ -32,21 +32,21 @@ Route::get('/dashboard', function () {
 
 Route::resource("/category", CategoryController::class);
 Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
-
 Route::resource("/home", EventController::class)->middleware("auth");
 
 
-Route::prefix("admin/dashboard")->group(function (){
+Route::prefix("admin/dashboard")->middleware(["auth", "admin"])->group(function (){
     Route::get("/", [AdminController::class, "index"])->name("statistique");
     Route::resource("category", CategoryController::class);
     Route::resource("user", AdminUserController::class);
     Route::resource("events", EventAdminController::class);
-    Route::patch('/admin/events/{event}/approve', [\App\Http\Controllers\admin\event\EventAdminController::class, 'update'])->name('events.approve');
+    Route::patch('/admin/events/{event}/approve', [EventAdminController::class, 'update'])->name('events.approve');
 });
 
 
 
-Route::prefix("organizer")->group(function () {
+Route::prefix("organizer")->middleware(["auth", "organizer"])->group(function () {
+    Route::resource("organizer", OrganizerController::class);
     Route::resource("/reservation", ReservationController::class);
     Route::get("dashboard", [OrganizerStatistiqueController::class, 'index'])->name("organizer.statistique");
     Route::get("dashboard/events", [OrganizerEventController::class, 'index'])->name("organizer.events");
@@ -55,18 +55,16 @@ Route::prefix("organizer")->group(function () {
     Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer');
     Route::patch('/events/{event}/auto-accept', [ReservationController::class, 'updateAutoAccept'])->name('events.updateAutoAccept');
 //    Route::get('/home/{userId}/{eventId}', [ReservationController::class, 'generatePDF']);
-
 });
 
 
 
 
 
-Route::prefix("organizer")->group( function (){
-    Route::resource("organizer", OrganizerController::class);
-    Route::post('/reserve-event', [ReservationController::class, 'reserveEvent'])->name('reserve.event');
-    Route::get('/mes-reservations', [ReservationController::class, 'index'])->name('reservations.index');
-})->middleware("auth");
+//Route::prefix("organizer")->group( function (){
+//    Route::post('/reserve-event', [ReservationController::class, 'reserveEvent'])->name('reserve.event');
+//    Route::get('/mes-reservations', [ReservationController::class, 'index'])->name('reservations.index');
+//})->middleware("auth");
 
 
 
