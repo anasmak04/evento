@@ -12,8 +12,8 @@
 <div class="p-4 sm:ml-64 bg-[#eceef2]">
     <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg">
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
+            <h1 class="capitalize font-bold text-3xl mb-5 ml-4 text-gray-700">welcome to admin dashboard</h1>
             <h1 class="font-bold text-3xl mb-5 ml-4 text-gray-700">Statistics</h1>
-
             <div class="relative p-4 overflow-x-auto sm:rounded-lg">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 

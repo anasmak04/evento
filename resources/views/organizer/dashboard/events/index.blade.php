@@ -9,12 +9,20 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500">
+
+                            @if(session('alert'))
+                                <script>
+                                    alert("{{ session('alert') }}");
+                                </script>
+                            @endif
+
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-3 px-6">Event ID</th>
                                 <th scope="col" class="py-3 px-6">Event Name</th>
                                 <th scope="col" class="py-3 px-6">Event Date</th>
-                                <th scope="col" class="py-3 px-6">status</th>
+                                <th scope="col" class="py-3 px-6">Status</th>
+                                <th scope="col" class="py-3 px-6">Attendees</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -24,17 +32,18 @@
                                     <td class="py-4 px-6">{{ $event->id }}</td>
                                     <td class="py-4 px-6">{{ $event->titre }}</td>
                                     <td class="py-4 px-6">{{ $event->date }}</td>
-                                    <td class="py-4 px-6">{{ $event->is_approved ? 'Approved' : 'Not_Approved' }}</td>
+                                    <td class="py-4 px-6">{{ $event->is_approved ? 'Approved' : 'Not Approved' }}</td>
+                                    <td class="py-4 px-6">
+
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-
-
                     </div>
-
                 </div>
             </div>
+
             <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
                 <form class="space-y-4" action="{{route('event.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
