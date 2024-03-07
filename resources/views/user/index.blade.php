@@ -71,9 +71,13 @@
                             @else
                                 <form action="{{route("reserve.event")}}" method="post">
                                     @csrf
+                                    <input type="hidden" name="titre" value="{{$event->titre}}">
+                                    <input type="hidden" name="lieu" value="{{$event->lieu}}">
+
                                     <input type="hidden" value="{{ $event->id }}" name="event_id">
                                     <button type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
-                                </form>                            @endif
+                                </form>
+                            @endif
 
 
                             <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">

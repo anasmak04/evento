@@ -8,6 +8,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class ReservationController extends Controller
 {
@@ -54,11 +55,16 @@ class ReservationController extends Controller
         }
 
         $user = auth()->user();
-        $eventName = $event->name;
+        $eventName = $request->titre;
+        $eventLieu = $request->lieu;
+        $ticketIdentifier = (string) Str::uuid();
+
 
         $data = [
             'userName' => $user->name,
             'eventName' => $eventName,
+            'eventLieu' => $eventLieu,
+            'ticketIdentifier' => $ticketIdentifier,
         ];
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.event_reservation', $data);
