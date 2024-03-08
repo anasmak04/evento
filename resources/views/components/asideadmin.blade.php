@@ -51,16 +51,10 @@
                     <span class="flex-1 ms-3 whitespace-nowrap">Categories</span>
                 </a>
             </li>
+
             {{-- end the admin aside links --}}
             {{-- start the organizer aside links--}}
-            <li class="rounded-lg">
-                <a href="" target="_blank" class="{{Route::is('rep.dash.company.index') ? 'bg-gray-700' : ''}} bg-gray-100 hover:bg-gray-300 hover:shadow flex items-center p-2 text-gray-900 rounded-lg group">
-                    <span class="material-symbols-outlined">
-                        scatter_plot
-                    </span>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Org Statistic</span>
-                </a>
-            </li>
+
             <li class="rounded-lg">
                 <a target="_blank" class="{{Route::is('organizer.events.index') ? 'bg-gray-300' : 'bg-gray-100'}}  hover:bg-gray-300 hover:shadow flex items-center p-2 text-gray-900 rounded-lg group">
                     <span class="material-symbols-outlined">

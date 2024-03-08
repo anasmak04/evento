@@ -22,20 +22,48 @@
                                 <th scope="col" class="py-3 px-6">Event Name</th>
                                 <th scope="col" class="py-3 px-6">Event Date</th>
                                 <th scope="col" class="py-3 px-6">Status</th>
-                                <th scope="col" class="py-3 px-6">Attendees</th>
+                                <th scope="col" class="py-3 px-6">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
+
+
+                            @if($errors->any())
+                                <div>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             @foreach($events as $event)
                                 <tr class="bg-white border-b">
                                     <td class="py-4 px-6">{{ $event->id }}</td>
                                     <td class="py-4 px-6">{{ $event->titre }}</td>
                                     <td class="py-4 px-6">{{ $event->date }}</td>
-                                    <td class="py-4 px-6">{{ $event->is_approved ? 'Approved' : 'Not Approved' }}</td>
-                                    <td class="py-4 px-6">
+                                    <td class="py-6 px-6">
+
+                                        <span class="bg-red-100 text-red-800 text-xs font-medium rounded dark:bg-red-900 dark:text-red-300 min-w-[120px] block text-center"> {{ $event->is_approved ? 'Approved' : 'Not Approved' }}</span>
 
                                     </td>
+
+                                    <td class="py-4 px-6 flex items-center space-x-2">
+                                        <form action="{{ route('organizer.events.delete') }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                                Delete
+                                            </button>
+                                        </form>
+
+                                        <a href="{{ route('organizer.events.edit', $event->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                            Edit
+                                        </a>
+                                    </td>
+
+
                                 </tr>
                             @endforeach
                             </tbody>
@@ -96,11 +124,6 @@
                         <input type="number" name="places_Disponible" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2.5">
                     </div>
 
-
-
-                    <div>
-                        <input type="hidden" value="{{auth()->id()}}" name="organizer_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2.5">
-                    </div>
 
                     <div>
                         <input type="hidden" name="is_approved" value="0"  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-sm p-2.5">

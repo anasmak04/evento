@@ -3,15 +3,15 @@
         @csrf
 
 
-        <div>
-            <x-input-label for="profile_image" :value="__('profile_image')" />
-            <x-text-input id="profile_image" class="block mt-1 w-full" type="file" name="profile_image" :value="old('profile_image')" required autofocus autocomplete="name" />
+        <div >
+            <x-input-label  for="profile_image" :value="__('profile_image')" />
+            <x-text-input id="profile_image" class="block  mt-1 w-full" type="file" name="profile_image" :value="old('profile_image')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('profile_image')" class="mt-2" />
         </div>
 
 
         <!-- Name -->
-        <div>
+        <div class="">
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />

@@ -12,7 +12,7 @@
 <div class="p-4 sm:ml-64 bg-[#eceef2]">
     <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg">
         <div class="overflow-x-auto shadow-md sm:rounded-lg">
-            <h1 class="font-bold text-3xl mb-5 ml-4 text-gray-700">Statistics</h1>
+            <h1 class="font-bold text-3xl mb-5 ml-4 text-gray-700">Events </h1>
 
             <section>
 
@@ -21,18 +21,24 @@
                     <tr>
                         <th scope="col" class="px-6 py-3">Id</th>
                         <th scope="col" class="px-6 py-3">Name</th>
+                        <th scope="col" class="px-6 py-3">user Id</th>
+                        <th scope="col" class="px-6 py-3">category</th>
                         <th scope="col" class="px-6 py-3">Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($events as $event)
                         <tr>
+
+
                             <td class="px-6 py-4">{{$event->id}}</td>
+                            <td class="px-6 py-4">{{$event->titre}}</td>
+                            <td class="px-6 py-4">{{$event->category->name}}</td>
+
                             <td class="px-6 py-4">
-                                @foreach ($event->users as $user)
-                                    Organizer Name: {{ $user->name }}
-                                @endforeach
+                                {{$event->organizer->user_id}}
                             </td>
+
                             <td class="px-6 py-4 flex gap-2">
                                 @if(!$event->is_approved)
                                     <form action="{{ route('events.approve', $event->id) }}" method="POST">

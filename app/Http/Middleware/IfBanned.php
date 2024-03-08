@@ -16,9 +16,9 @@ class IfBanned
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status == false) {
+        if (Auth::check() && Auth::user()->status == 0) {
             Auth::logout();
-            return redirect('login');
+             abort(403, "not allowed here mr");
         }
 
         return $next($request);

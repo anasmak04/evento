@@ -15,7 +15,6 @@ class EventController extends Controller
 
 
 
-
     public function index(Request $request)
     {
         $searchKey = $request->input("searchKey");
@@ -28,6 +27,8 @@ class EventController extends Controller
         $categories = Category::all();
         return view("user.index", compact("events", "categories"));
     }
+
+
 
 
 

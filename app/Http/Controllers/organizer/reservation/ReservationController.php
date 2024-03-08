@@ -26,12 +26,22 @@ class ReservationController extends Controller
 
     public function index()
     {
-        $organizerId= auth()->id();
+        $userId = auth()->id();
 
-        $events = Event::where("auto_accept", false)
-            ->where("organizer_id", $organizerId)->get();
+        $organizer = User::find($userId)->organizer;
+
+        if (!$organizer) {
+            return redirect()->back()->with('error', 'Organizer profile not found.');
+        }
+
+        $events = $organizer->events()->where('auto_accept', false)->get();
         return view("organizer.dashboard.reservation.index", compact("events"));
     }
+
+
+
+
+
 
 
 
@@ -54,14 +64,16 @@ class ReservationController extends Controller
         }
 
 
-        $event->decrement('places_Disponible');
+        if($event->auto_accept){
+            $event->decrement('places_Disponible');
+        }
 
         $isApproved = (bool)$event->auto_accept;
         $event->users()->attach($userId, ['is_approved' => $isApproved]);
 
-        if (!$isApproved) {
-            return redirect()->back()->with('success', 'Your reservation request has been submitted and is awaiting approval.');
-        }
+            if (!$isApproved) {
+                return redirect()->back()->with('success', 'Your reservation request has been submitted and is awaiting approval.');
+            }
 
         $user = auth()->user();
         $eventName = $event->name;
@@ -82,9 +94,6 @@ class ReservationController extends Controller
     }
 
 
-
-
-
     public function updateAutoAccept(Event $event, Request $request)
     {
         $userId = $request->user_id;
@@ -96,14 +105,39 @@ class ReservationController extends Controller
 
         if ($event->users()->where('user_id', $userId)->exists()) {
             $event->users()->updateExistingPivot($userId, ['is_approved' => true]);
+            if ($event->places_Disponible > 0) {
+                $event->decrement('places_Disponible');
+                \Mail::to($user->email)->send(new \App\Mail\TicketMail($event, $user));
+                return redirect()->back()->with('success', 'Event auto-accept status updated and user approved successfully. Ticket emailed.');
+            }
 
-            \Mail::to($user->email)->send(new \App\Mail\TicketMail($event, $user));
-
-            return redirect()->back()->with('success', 'Event auto-accept status updated and user approved successfully. Ticket emailed.');
         } else {
             return redirect()->back()->with('error', 'The specified user does not have a reservation for this event.');
         }
     }
+
+
+//    public function approveUserReservation(Event $event, Request $request)
+//    {
+//        $userId = $request->user_id;
+//        $user = User::findOrFail($userId);
+//
+//        if ($event->users()->where('user_id', $userId)->exists()) {
+//            if ($event->places_Disponible > 0) {
+//                $event->decrement('places_Disponible');
+//                $event->users()->updateExistingPivot($userId, ['is_approved' => true]);
+//
+//                \Mail::to($user->email)->send(new \App\Mail\TicketMail($event, $user));
+//
+//                return redirect()->back()->with('success', 'User reservation approved successfully. Ticket emailed.');
+//            } else {
+//                return redirect()->back()->with('error', 'No more available places for this event.');
+//            }
+//        } else {
+//            return redirect()->back()->with('error', 'The specified user does not have a reservation for this event.');
+//        }
+//    }
+
 
 
 

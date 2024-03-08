@@ -20,6 +20,8 @@
                 </tr>
                 </thead>
                 <tbody>
+
+
                 @foreach ($events as $event)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td class="px-6 py-4">{{$event->id}}</td>

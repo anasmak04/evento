@@ -29,26 +29,32 @@ use Illuminate\Support\Facades\Route;
 //})->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::resource("/category", CategoryController::class);
-Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role');
-Route::resource("/home", \App\Http\Controllers\home\EventController::class)->middleware("auth");
+Route::resource("/category", CategoryController::class)->middleware("banned");
+Route::post('/user/update-role', [AdminController::class, 'updateRole'])->name('user.update.role')->middleware("banned");
+Route::resource("/home", \App\Http\Controllers\home\EventController::class)->middleware(["auth", "banned"]);
 
 
 
-Route::prefix("admin/dashboard")->middleware(["auth"])->group(function (){
+Route::prefix("admin/dashboard")->middleware(["auth","banned"])->group(function (){
     Route::get("/", [AdminController::class, "index"])->name("statistique");
     Route::resource("category", CategoryController::class);
     Route::resource("user", AdminUserController::class);
     Route::resource("events", EventAdminController::class);
     Route::patch('/admin/events/{event}/approve', [EventAdminController::class, 'update'])->name('events.approve');
+    Route::patch('/user/{user}/status', [AdminUserController::class, 'updateStatus'])->name('user.updateStatus');
+
 });
 
 
 
-Route::prefix("organizer")->middleware(["auth"])->group(function () {
+Route::prefix("organizer")->middleware(["auth", "banned"])->group(function () {
     Route::resource("/reservation", ReservationController::class);
     Route::get("dashboard", [OrganizerStatistiqueController::class, 'index'])->name("organizer.statistique");
     Route::get("dashboard/events", [OrganizerEventController::class, 'index'])->name("organizer.events");
+    Route::delete("dashboard/events", [OrganizerEventController::class, 'delete'])->name("organizer.events.delete");
+    Route::get("dashboard/event/edit/{id}", [OrganizerEventController::class, 'edit'])->name("organizer.events.edit");
+    Route::put('dashboard/events/{id}', [OrganizerEventController::class, 'update'])->name('organizer.events.update');
+
     Route::get("dashboard/categories", [OrganizerCategoryController::class, 'index'])->name("organizer.categories");
     Route::resource("event", OrganizerEventController::class);
     Route::patch('/events/{event}/auto-accept', [ReservationController::class, 'updateAutoAccept'])->name('events.updateAutoAccept');
@@ -58,8 +64,8 @@ Route::prefix("organizer")->middleware(["auth"])->group(function () {
 
 
 
-Route::resource("organizer", OrganizerController::class)->middleware("auth");
-Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer')->middleware("auth");
+Route::resource("organizer", OrganizerController::class)->middleware(["auth", "banned"]);
+Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer'])->name('become.organizer')->middleware(["auth", "banned"]);
 
 
 
@@ -69,7 +75,7 @@ Route::post('/become-organizer', [OrganizerController::class, 'becomeOrganizer']
 //})->middleware("auth");
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', "banned"])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

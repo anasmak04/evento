@@ -79,6 +79,25 @@
                                     </form>
 
 
+                                    @if(!$user->status)
+                                        <form action="{{ route('user.updateStatus', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="1">
+                                            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Unban</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('user.updateStatus', $user->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="status" value="0">
+                                            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Ban</button>
+                                        </form>
+                                    @endif
+
+
+
+
                                 </td>
                             </tr>
                         </tbody>

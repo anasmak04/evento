@@ -25,22 +25,24 @@
     <div class="p-4 flex justify-center gap-4 items-center">
 
         <form action="{{route('home.index')}}" method="get" class="flex gap-2">
-            @csrf
             <input name="searchKey" type="text" placeholder="Search..." class="w-80 border border-gray-300 p-2 rounded-lg focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-150 ease-in-out" />
             <button type="submit" class="bg-blue-700 text-white p-2 rounded-lg hover:bg-yellow-800 focus:outline-none focus:ring-2 focus:ring-yellow-700 focus:ring-opacity-50 transition duration-150 ease-in-out">
                 Search
             </button>
         </form>
 
-        <form action="" method="">
-            <select id="categories" class="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                @foreach($categories as $category)
-                    <option selected>Choose a category</option>
-                    <option>{{$category->name}}</option>
-                @endforeach
-            </select>
 
-        </form>
+    <div>
+        <select id="categories" class="border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option value="" selected>Choose a category</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->name }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
+
+
 
 
     </div>
@@ -52,80 +54,91 @@
 
 
 
-    <section class="mt-4 mb-8">
+            <section class="mt-4 mb-8" >
 
-        <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-3 gap-4">
-            @foreach($events as $event)
-                @if(!$event->date->isPast())
-
-                <div class="card border border-gray-200 w-full md:w-[300px] shadow-lg rounded-lg overflow-hidden">
-                    <img src="{{$event->getFirstMediaUrl('eventImage')}}" alt="image" class="w-full object-cover">
-                    <div class="p-4">
-                        <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$event->category->name}}</span>
-                        <h1 class="mt-2 font-bold text-lg text-gray-900">{{$event->titre}}</h1>
-                        <h3 class="text-sm text-gray-600">{{$event->lieu}}</h3>
-                        <p class="mt-2 text-gray-800 font-semibold">À partir de : 200MAD</p>
-                        <p class="mt-2 text-gray-800 font-semibold">Les places Disponible : {{$event->places_Disponible}}</p>
-
-                        <div class="flex items-center gap-2">
-                            @if($event->date->isPast())
-                                <button  type="button" class="mt-4  focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600" disabled>Guichet Fermé</button>
-                            @else
-                                <form action="{{route("reserve.event")}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="titre" value="{{$event->titre}}">
-                                    <input type="hidden" name="lieu" value="{{$event->lieu}}">
-
-                                    <input type="hidden" value="{{ $event->id }}" name="event_id">
-                                    <button type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
-                                </form>
-                            @endif
-
-
-                            <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">
-                                <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-                @endif
-            @endforeach
-        </div>
-
-{{--        <div class="mt-8 flex justify-center">--}}
-{{--            {{ $events->links() }}--}}
-{{--        </div>--}}
-
-    </section>
-
-    <section  class="pb-20 md:pb-20 w-full bg text-white space-y-8">
-            <div class="space-y-6 pt-8">
-                <h1 class="text-center text-4xl font-bold">les événements passés</h1>
-                <p class="text-center">Tout ce que vous avez raté sur GUICHET</p>
-            </div>
-
-            <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-4 gap-4">
-
-
+                <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-3 gap-4" id="cards">
                 @foreach($events as $event)
-                    @if($event->date->isPast())
-                        <div class="card bg-white border-gray-200 w-[300px] bg-opacity-50  shadow-lg rounded-lg overflow-hidden">
+                        @if(!$event->date->isPast())
+
+                        <div data-category="{{ $event->category->name }}" class="card border border-gray-200 w-full md:w-[300px] shadow-lg rounded-lg overflow-hidden">
                             <img src="{{$event->getFirstMediaUrl('eventImage')}}" alt="image" class="w-full object-cover">
                             <div class="p-4">
-                                <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Concerts & Festivals</span>
-                                <h1 class="mt-2 font-bold text-lg text-gray-900">Nostalgia à Rabat</h1>
-                                <h3 class="text-sm text-gray-600">Rabat, PALAIS DES CONGRÈS Rabat</h3>
+                                <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{$event->category->name}}</span>
+                                <h1 class="mt-2 font-bold text-lg text-gray-900">{{$event->titre}}</h1>
+                                <h3 class="text-sm text-gray-600">{{$event->lieu}}</h3>
                                 <p class="mt-2 text-gray-800 font-semibold">À partir de : 200MAD</p>
-                                <button class="mt-4  focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 ">Guichet Fermé</button>
-                                <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
+                                <p class="mt-2 text-gray-800 font-semibold">Les places Disponible : {{$event->places_Disponible}}</p>
+
+                                <div class="flex items-center gap-2">
+                                    @if($event->date->isPast())
+                                        <button  type="button" class="mt-4  focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600" disabled>Guichet Fermé</button>
+                                    @else
+                                        <form action="{{route("reserve.event")}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="titre" value="{{$event->titre}}">
+                                            <input type="hidden" name="lieu" value="{{$event->lieu}}">
+                                            <input type="hidden" value="{{ $event->id }}" name="event_id">
+                                            <button   type="submit" class="mt-4 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Buy</button>
+                                        </form>
+                                    @endif
+
+
+                                    <form class="relative top-2" action="{{ route('home.show', ['home' => $event->id]) }}" method="GET">
+                                        <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
+                                    </form>
+
+                                </div>
                             </div>
                         </div>
-                    @endif
-                @endforeach
+                        @endif
 
-            </div>
-        </section>
+                            @if(session('success'))
+                                <script>
+                                    Swal.fire({
+                                        title: 'Success!',
+                                        text: '{{ session("success") }}',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    })
+                                </script>
+                            @endif
+
+                    @endforeach
+                </div>
+
+        {{--        <div class="mt-8 flex justify-center">--}}
+        {{--            {{ $events->links() }}--}}
+        {{--        </div>--}}
+
+            </section>
+
+        <section  class="pb-20 md:pb-20 w-full bg text-white space-y-8">
+                <div class="space-y-6 pt-8">
+                    <h1 class="text-center text-4xl font-bold">les événements passés</h1>
+                    <p class="text-center">Tout ce que vous avez raté sur GUICHET</p>
+                </div>
+
+                <div class="container mx-auto w-full h-auto grid grid-cols-1 md:grid-cols-4 gap-4">
+
+
+                    @foreach($events as $event)
+                        @if($event->date->isPast())
+                            <div class="card bg-white border-gray-200 w-[300px] bg-opacity-50  shadow-lg rounded-lg overflow-hidden">
+                                <img src="{{$event->getFirstMediaUrl('eventImage')}}" alt="image" class="w-full object-cover">
+                                <div class="p-4">
+                                    <span class="inline-block mt-1 bg-blue-100 text-blue-800 text-sm font-semibold px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Concerts & Festivals</span>
+                                    <h1 class="mt-2 font-bold text-lg text-gray-900">Nostalgia à Rabat</h1>
+                                    <h3 class="text-sm text-gray-600">Rabat, PALAIS DES CONGRÈS Rabat</h3>
+                                    <p class="mt-2 text-gray-800 font-semibold">À partir de : 200MAD</p>
+                                    <button class="mt-4  focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-white rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 ">Guichet Fermé</button>
+                                    <button class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Details</button>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+
+                </div>
+            </section>
 
     <section class="mt-8 mb-4">
         <div class="container mx-auto w-full space-y-4">
@@ -160,6 +173,28 @@
     @include("components.footer")
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectElement = document.getElementById('categories');
+
+            selectElement.addEventListener('change', function() {
+                var selectedCategory = this.value; // Get the selected category
+
+                // Get all card elements
+                var cards = document.querySelectorAll('.card');
+
+                // Loop through cards
+                cards.forEach(function(card) {
+                    if (selectedCategory === "" || card.getAttribute('data-category') === selectedCategory) {
+                        card.style.display = ''; // Show the card if it matches the selected category
+                    } else {
+                        card.style.display = 'none'; // Hide the card if it does not match
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

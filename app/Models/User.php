@@ -46,6 +46,7 @@ class User extends Authenticatable implements HasMedia
         'name',
         'email',
         'password',
+        'status',
     ];
 
     /**
@@ -66,6 +67,7 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+
     ];
 
 

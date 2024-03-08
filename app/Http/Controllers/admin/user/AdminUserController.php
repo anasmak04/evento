@@ -20,9 +20,27 @@ class AdminUserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
         return redirect()->route('user.index')->with('success', 'User deleted successfully.');
     }
+
+
+
+    public function updateStatus(User $user, Request $request)
+    {
+        $request->validate([
+            'status' => 'required|boolean',
+        ]);
+
+        $user->update([
+            'status' => $request->input('status'),
+        ]);
+
+        return back()->with('success', 'User status updated successfully.');
+    }
+
+
+
+
 
 
 
