@@ -7,7 +7,7 @@
     </svg>
 </button>
 
-@include('components.aside')
+@include('components.asideadmin')
 
 <div class="p-4 sm:ml-64 bg-[#eceef2]">
     <div class="p-4 border-2 border-gray-300 border-dashed rounded-lg">

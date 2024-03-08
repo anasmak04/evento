@@ -35,7 +35,7 @@
 
                 <li>
                     @if(auth()->user() && auth()->user()->hasRole("Organisateur"))
-                        <a target="_blank" href="{{route("event.create")}}" >Create Event</a>
+                        <a target="_blank" href="http://127.0.0.1:8000/organizer/event" >Create Event</a>
                     @endif
 
                 </li>

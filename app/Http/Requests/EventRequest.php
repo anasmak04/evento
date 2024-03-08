@@ -11,7 +11,7 @@ class EventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,14 +23,13 @@ class EventRequest extends FormRequest
     {
         return [
             'titre' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date|after:today',
-            'lieu' => 'required|string',
+            'description' => 'required|string|max:1000',
+            'date' => 'required|date|after_or_equal:today',
+            'lieu' => 'required|string|max:255',
             'category_id' => 'required|integer|exists:categories,id',
             'places_Disponible' => 'required|integer|min:1',
-            'organizer_id' => 'required|integer|exists:users,id',
-            'is_approved' => 'sometimes|boolean',
-            'auto_accept' => 'sometimes|boolean',
+            'event_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'auto_accept' => 'sometimes|boolean'
         ];
     }
 }

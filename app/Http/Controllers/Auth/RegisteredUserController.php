@@ -75,7 +75,7 @@ class RegisteredUserController extends Controller
         }
 
         else if($user->hasRole("Admin")){
-            return redirect("dashboard");
+            return redirect("admin/dashboard/events");
         }
 
         else{

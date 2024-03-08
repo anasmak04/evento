@@ -49,6 +49,13 @@ class ReservationController extends Controller
             return redirect()->back()->with('error', 'This event has already occurred and cannot be reserved.');
         }
 
+        if ($event->places_Disponible <= 0) {
+            return redirect()->back()->with('error', 'No more available places for this event.');
+        }
+
+
+        $event->decrement('places_Disponible');
+
         $isApproved = (bool)$event->auto_accept;
         $event->users()->attach($userId, ['is_approved' => $isApproved]);
 
@@ -73,8 +80,6 @@ class ReservationController extends Controller
 
         return $pdf->download('event-reservation-' . $userId . '-' . $eventId . '.pdf');
     }
-
-
 
 
 

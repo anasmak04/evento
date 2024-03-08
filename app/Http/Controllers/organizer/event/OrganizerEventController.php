@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\organizer\event;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EventRequest;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\User;
@@ -36,7 +37,8 @@ class OrganizerEventController extends Controller
 
 
 
-    public function store(Request $request)
+
+    public function store(EventRequest $request)
     {
         $organizerId = $request->input('organizer_id');
 
@@ -48,10 +50,10 @@ class OrganizerEventController extends Controller
             return redirect()->back()->with('alert', 'Cannot create an event until the first event is approved.');
         }
 
-        $eventData = $request->all();
+        $eventData = $request->validated();
         $eventData['organizer_id'] = $organizerId;
-
         $eventData['is_approved'] = false;
+
 
         $event = Event::create($eventData);
 
@@ -61,9 +63,6 @@ class OrganizerEventController extends Controller
 
         return redirect()->back()->with('status', 'Your event has been created successfully and is pending approval.');
     }
-
-
-
 
 
 
